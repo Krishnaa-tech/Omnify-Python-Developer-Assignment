@@ -36,7 +36,7 @@ A comprehensive RESTful API for managing fitness class bookings with timezone ma
 ## 📦 Installation & Setup
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.12
 - pip package manager
 
 ### Quick Start
