@@ -114,7 +114,9 @@ def test_book_class_invalid_email():
         },
     )
     assert response.status_code == 422 # Unprocessable Entity from Pydantic
-    assert "value_error.email" in response.json()["detail"][0]["type"]
+    # Corrected assertion: Check if the type is 'value_error' and 'email' is in the message
+    assert response.json()["detail"][0]["type"] == "value_error"
+    assert "email" in response.json()["detail"][0]["msg"].lower()
 
 def test_book_class_missing_fields():
     response = client.post(
@@ -152,5 +154,7 @@ def test_get_bookings_by_email_no_bookings_found():
 
 def test_get_bookings_by_email_invalid_email_format():
     response = client.get("/bookings?client_email=bademail")
-    assert response.status_code == 422 # Unprocessable Entity
-    assert "value_error.email" in response.json()["detail"][0]["type"]
+    assert response.status_code == 422
+    # Corrected: Check for Pydantic's standard validation error structure
+    assert response.json()["detail"][0]["type"] == "value_error"
+    assert "email" in response.json()["detail"][0]["msg"].lower()
